@@ -1,0 +1,23 @@
+{
+  "name": "client",
+  "version": "1.0.0",
+  "description": "group project w1",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/group-project-w1-BigFridge/client.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/group-project-w1-BigFridge/client/issues"
+  },
+  "homepage": "https://github.com/group-project-w1-BigFridge/client#readme",
+  "dependencies": {
+    "live-server": "^1.2.1"
+  }
+}
