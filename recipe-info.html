@@ -4,35 +4,99 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <title>Recipe</title>
 </head>
 <body>
-    <ul></ul>
-
-    <!-- <script
-    src="https://code.jquery.com/jquery-3.4.1.js"
-    integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
-    crossorigin="anonymous"></script> -->
+    <div class="container">
+        <div class="row">
+            <div class="col" id="title">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col categories">
+            </div>
+        </div>
+        <div class="row" style="margin-top: 20px">
+            <div class="col">
+                gambar
+            </div>  
+            <div class="col ingredients">
+            </div>
+        </div>
+        <div class="row" style="margin-top: 20px"> 
+            <div class="col">
+                Dish Types:
+                <div class="dishTypes"></div>
+                
+            </div>
+        </div>
+        <div class="row" style="margin-top: 20px; align-content: center">
+            <div class="col-12">
+                <div class="row youtube" style="width: 100%; margin-top: 20px"></div>
+                </div>
+            </div>  
+            
+        </div>
+        
+    </div>   
+  
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script>
-        $.ajax({
-        method:'get',
-        url: `http://localhost:3000/recipes/youtube/pizza`
+        $(document).ready(()=>{
+        console.log('DOM ready');
+        spoonify()
+        youtube()
         })
-            .done(list=>{
-                list.items.forEach(video=>{
-                    $("ul").append(`<li> ${video.id.videoId} </li>`)
+        function spoonify(){
+            $.ajax({
+            method:'get',
+            url: `http://localhost:3000/recipes/20125`
+            })
+                .done(recipe=>{
+                    $("#title").append(`
+                        <div>
+                            <h1>${recipe.title} </h1>
+                        </div>
+                    `)
+                    recipe.extendedIngredients.forEach(ingredients=>{
+                        $(".ingredients").append(`
+                            <li>
+                                ${ingredients.originalString}
+                            </li>
+                        `)
+                    })
+                    recipe.diets.forEach(diet=>{
+                        $(".categories").append(`
+                            <span class="badge badge-pill badge-primary">${diet}</span>
+                            `)
+                    })
+                    recipe.dishTypes.forEach(dish=>{
+                        $(".dishTypes").append(`
+                            <span class="badge badge-pill badge-light">${dish}</span>
+                            `)
+                    })
+                    
                 })
-            })
-            .fail(console.log)
+                .fail(err=>{
+                    console.log(err)
+                })
+        }
 
-        $.ajax({
-        method:'get',
-        url: `http://localhost:3000/recipes/20123`
-        })
-            .done(recipe=>{
-                $("ul").append(`<li> ${recipe.title} </li>`)
+        function youtube(){
+            $.ajax({
+            method:'get',
+            url: `http://localhost:3000/recipes/youtube/Chard Potstickers`
             })
+                .done(list=>{
+                    $(".youtube").append(`
+                        <iframe width="600" height="315" style="margin:auto" 
+                        src="https://www.youtube.com/embed/${list.items[0].id.videoId}">
+                        </iframe>
+                        `)
+                })
+                .fail(console.log)
+        }
     </script>
 </body>
 </html>
