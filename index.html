@@ -89,8 +89,8 @@
   <div id="recipes-page">
       <nav class="navbar navbar-light bg-light">
           <div class="container">
-            <span class="navbar-brand mb-0 h1"><b>BigFridge</b></span>
-            <span class="navbar-brand mb-0 h1>
+            <a href="#" class="navbar-brand mb-0 h1" onclick="toHome();"><b>BigFridge</b></a>
+            <span class="navbar-brand mb-0 h1">
             <a href="#" onclick="signOut();">Sign out</a>
             </span>
           </div>
@@ -113,6 +113,50 @@
             <div id="recipes-container"  class="buttoncol-md-6 offset-md-3"></div>
           </div>
         </div>
+  </div>
+
+  <div id="recipes-info">
+      <nav class="navbar navbar-light bg-light">
+          <div class="container">
+            <a href="#" class="navbar-brand mb-0 h1" onclick="toHome();"><b>BigFridge</b></a>
+            <span class="navbar-brand mb-0 h1">
+            <a href="#" onclick="signOut();">Sign out</a>
+            </span>
+          </div>
+        </nav>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col" id="title">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col categories">
+            </div>
+        </div>
+        <div class="row" style="margin-top: 20px">
+            <div class="col" id="googleImages">
+                
+            </div>  
+            <div class="col ingredients">
+            </div>
+            
+        </div>
+        <div class="row" style="margin-top: 20px"> 
+            <div class="col">
+                Dish Types:
+                <div class="dishTypes"></div>
+                
+            </div>
+        </div>
+        <div class="row" style="margin-top: 20px; align-content: center">
+            <div class="col-12">
+                <div class="row youtube" style="width: 100%; margin-top: 20px"></div>
+                </div>
+            </div>  
+            
+        </div>
+        
+    </div>  
   </div>
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>

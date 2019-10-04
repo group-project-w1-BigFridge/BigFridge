@@ -1,5 +1,6 @@
 $(document).ready(function() {
   $("#recipes-page").hide()
+  $("#recipes-info").hide()
   getRecipes()
 });
 
@@ -39,6 +40,7 @@ function getRecipes(){
                       <div class="row">
                       <div class="column" style="width: 200px;">${usedIngredients}</div>
                       <div class="column" style="width: 250px;">${missedIngredients}</div>
+                      <div><button class="btn btn-primary btn-sm ml-4" onclick="seeDetail('${recipe.id}','${recipe.title}');" type="submit">Detail</button></div>
                       </div>
                   </div>
                   </div>
@@ -55,6 +57,98 @@ function getRecipes(){
           }
       })
   })
+}
+
+function seeDetail(idRecipes,title){
+  $("#main-page").hide()
+  $("#recipes-page").hide()
+  spoonify(idRecipes)
+  $("#recipes-info").show()
+  googleImage(title)
+  youtube(title)
+}
+
+function spoonify(idRecipes){
+  $.ajax({
+  method:'get',
+  url: `http://localhost:4000/recipes/${idRecipes}`
+  })
+      .done(recipe=>{
+          $("#title").append(`
+              <div>
+                  <h1>${recipe.title} </h1>
+              </div>
+          `)
+          recipe.extendedIngredients.forEach(ingredients=>{
+              $(".ingredients").append(`
+                  <li>
+                      ${ingredients.originalString}
+                  </li>
+              `)
+          })
+          recipe.diets.forEach(diet=>{
+              $(".categories").append(`
+                  <span class="badge badge-pill badge-primary">${diet}</span>
+                  `)
+          })
+          recipe.dishTypes.forEach(dish=>{
+              $(".dishTypes").append(`
+                  <span class="badge badge-pill badge-light">${dish}</span>
+                  `)
+          })
+          
+      })
+      .fail(err=>{
+          console.log(err)
+      })
+}
+
+function youtube(title){
+  $.ajax({
+  method:'get',
+  url: `http://localhost:4000/recipes/youtube/${title}`
+  })
+      .done(list=>{
+          $(".youtube").append(`
+              <iframe width="600" height="315" style="margin:auto" 
+              src="https://www.youtube.com/embed/${list.items[0].id.videoId}">
+              </iframe>
+              `)
+          $(".youtube").append(`
+              <iframe width="600" height="315" style="margin:auto" 
+              src="https://www.youtube.com/embed/${list.items[1].id.videoId}">
+              </iframe>
+              `)
+          $(".youtube").append(`
+              <iframe width="600" height="315" style="margin:auto" 
+              src="https://www.youtube.com/embed/${list.items[2].id.videoId}">
+              </iframe>
+              `)
+      })
+      .fail(console.log)
+}
+
+function googleImage(title){
+  console.log(title)
+  $.ajax({
+    url: 'http://localhost:4000/recipes/images',
+    method: 'post',
+    data: {
+        recipe: title
+    }
+})
+.done(({images_src}) => {
+    console.log(images_src)
+    $('#recipes-images').empty()
+    images_src.forEach(image_src => {
+        $('#googleImages').append(`
+        <img src="${image_src}" style="width: 100px; height: 100px;">
+        `)
+    });
+})
+.fail(err => {
+    console.log(err)
+})
 }
 
 function onSignIn(googleUser) {
@@ -89,14 +183,24 @@ function onSignIn(googleUser) {
 
 }
 
+function toHome(){
+  $("#recipes-page").show()
+  $("#main-page").hide()
+  $("#recipes-info").hide()
+  $("#title").empty()
+  $(".ingredients").empty()
+  $(".categories").empty()
+  $(".dishTypes").empty()
+}
+
 function signOut() {
   var auth2 = gapi.auth2.getAuthInstance();
   auth2.signOut().then(function () {
     localStorage.removeItem('token')
-
     $("#main-page").show()
     $(".modal-backdrop").show()
     $("#recipes-page").hide()
+    $("#recipes-info").hide()
     console.log('User signed out.');
   });
 }
