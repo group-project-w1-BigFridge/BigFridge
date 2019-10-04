@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Recipe</title>
+</head>
+<body>
+    <ul></ul>
+
+    <!-- <script
+    src="https://code.jquery.com/jquery-3.4.1.js"
+    integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+    crossorigin="anonymous"></script> -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+        $.ajax({
+        method:'get',
+        url: `http://localhost:3000/recipes/youtube/pizza`
+        })
+            .done(list=>{
+                list.items.forEach(video=>{
+                    $("ul").append(`<li> ${video.id.videoId} </li>`)
+                })
+            })
+            .fail(console.log)
+
+        $.ajax({
+        method:'get',
+        url: `http://localhost:3000/recipes/20123`
+        })
+            .done(recipe=>{
+                $("ul").append(`<li> ${recipe.title} </li>`)
+            })
+    </script>
+</body>
+</html>
