@@ -61,7 +61,7 @@
                     </button>
                   </div>
                   <div class="modal-body">
-                    <form>
+                    <form id="form-login">
                         <div class="form-group">
                           <label for="exampleInputEmail1">Email address</label>
                           <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
@@ -72,7 +72,7 @@
                           <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
                         </div>
                         <div class="modal-footer">
-                          <button type="submit" class="btn btn-primary">Login</button>
+                          <button class="btn btn-primary">Login</button>
                         
                           <div class="g-signin2" data-onsuccess="onSignIn">Ini button</div>
         
@@ -99,7 +99,8 @@
         <div style="text-align: center">
             <div>
                 <div class="form-group">
-                    <label for="ingredients"><h3>What's in your fridge?</h3></label>
+                    <label><h3 id="userName"></h3></label><br>
+                    <label for="ingredients"><h3>what's in your fridge?</h3></label>
                     <input type="text" class="form-control" id="ingredients" placeholder="chicken,egg,lettuce,milk" style="width: 40%; margin: auto;">
                 </div>
             </div>

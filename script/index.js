@@ -2,6 +2,7 @@ $(document).ready(function() {
   $("#recipes-page").hide()
   $("#recipes-info").hide()
   getRecipes()
+  login()
 });
 
 function getRecipes(){
@@ -168,19 +169,66 @@ function onSignIn(googleUser) {
       id_token
     }
   })
-  .done(function(token){
+  .done(function(data){
+    let token = data.token
+    let name = data.googleUserName
     console.log(token)
+    console.log(name)
     localStorage.setItem('token', token)
-    
+
+    $("#userName").append(`Welcome ${name},`)
     $("#main-page").hide()
     $("#recipes-page").show()
     $(".modal-backdrop").hide()
 
   })
-  .catch(function(err){
-    console.log(err)
-  })
+  .fail(err => {
+    signOut()
+    if(!err.responseJSON) {
+        swal('Connection lost', 'Something wrong with the server', "error"); 
+    } else {
+        swal(err.responseJSON.message, '', "error");
+    }
+})
 
+}
+
+function login(){
+    $('#form-login').submit((e) => {
+        e.preventDefault()
+        let email = $('#exampleInputEmail1').val()
+        let pass = $('#exampleInputPassword1').val()
+        
+        console.log(email,pass)
+
+        $.ajax({
+            method:'post',
+            url: 'http://localhost:3000/users/login',
+            data : {
+                email, pass
+            }
+        })
+        .done(data => {
+            let token = data.token
+            let name = data.name
+            console.log(token)
+            console.log(name)
+            localStorage.setItem('token', token)
+
+            $("#userName").append(`Welcome ${name},`)
+            $("#main-page").hide()
+            $("#recipes-page").show()
+            $(".modal-backdrop").hide()
+        })
+        .fail(err => {
+            signOut()
+            if(!err.responseJSON) {
+                swal('Connection lost', 'Something wrong with the server', "error"); 
+            } else {
+                swal(err.responseJSON.message, '', "error");
+            }
+    })
+})
 }
 
 function toHome(){
@@ -191,6 +239,7 @@ function toHome(){
   $(".ingredients").empty()
   $(".categories").empty()
   $(".dishTypes").empty()
+  $(".youtube").empty()
 }
 
 function signOut() {
@@ -201,6 +250,9 @@ function signOut() {
     $(".modal-backdrop").show()
     $("#recipes-page").hide()
     $("#recipes-info").hide()
+    $("#userName").empty()
+    $("#recipes-container").empty()
+    $("#ingredients").val('')
     console.log('User signed out.');
   });
 }
