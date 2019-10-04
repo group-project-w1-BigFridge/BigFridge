@@ -1,6 +1,6 @@
 $(document).ready(function() {
     $.ajax({
-        url: 'http://localhost:3000/recipes/images',
+        url: 'http://localhost:4000/recipes/images',
         method: 'post',
         data: {
             recipe: 'caramel machiatto'
