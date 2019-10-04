@@ -1,34 +1,34 @@
+function onSignIn(googleUser) {
+  var profile = googleUser.getBasicProfile();
+  console.log('ID: ' + profile.getId());
+  console.log('Name: ' + profile.getName());
+  console.log('Image URL: ' + profile.getImageUrl());
+  console.log('Email: ' + profile.getEmail()); 
 
-$(document).ready(()=>{
-    console.log('DOM ready');
-    
-    showAll()
+  var id_token = googleUser.getAuthResponse().id_token;
+  console.log(id_token)
 
-})
+  $.ajax({
+    method:'post',
+    url: 'http://localhost:4000/users/googleSignin',
+    data : {
+      id_token
+    }
+  })
+  .done(function(token){
+    console.log(token)
+    localStorage.setItem('token', token)
+    // document.location.href = '/recipes.html'
+  })
+  .catch(function(err){
+    console.log(err)
+  })
 
-console.log('test')
-function showAll(){
-    $.ajax({
-        method:'get',
-        url: `http://localhost:3000/recipes/youtube`
-    })
-        .done(list=>{
-            list.items.forEach(video=>{
-                $("ul").append(`<li> ${video.id.videoId} </li>`)
-            })
-        })
 }
 
-// function userRepo(user){
-//     $.ajax({
-//         method: 'get',
-//         url: `http://localhost:3000/repos/${user}`
-//     })
-//         .done(repos=>{
-
-//             $('.list-group-item').hide()
-//             repos.forEach(repo=>{
-//                 $("ul").append(`<li class="list-group-item"> <a href="${repo.html_url}">${repo.name}</a></li>`)  
-//             })
-//         })
-// }
+function signOut() {
+  var auth2 = gapi.auth2.getAuthInstance();
+  auth2.signOut().then(function () {
+    console.log('User signed out.');
+  });
+}
