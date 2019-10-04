@@ -8,7 +8,7 @@ function getRecipes(){
   $('#ingredients-form').submit((e) => {
       e.preventDefault()
       $.ajax({
-          url: 'http://localhost:4000/recipes',
+          url: 'http://localhost:3000/recipes',
           method: 'post',
           data: {
               ingredients: $('#ingredients').val()
@@ -71,7 +71,7 @@ function seeDetail(idRecipes,title){
 function spoonify(idRecipes){
   $.ajax({
   method:'get',
-  url: `http://localhost:4000/recipes/${idRecipes}`
+  url: `http://localhost:3000/recipes/${idRecipes}`
   })
       .done(recipe=>{
           $("#title").append(`
@@ -106,7 +106,7 @@ function spoonify(idRecipes){
 function youtube(title){
   $.ajax({
   method:'get',
-  url: `http://localhost:4000/recipes/youtube/${title}`
+  url: `http://localhost:3000/recipes/youtube/${title}`
   })
       .done(list=>{
           $(".youtube").append(`
@@ -131,7 +131,7 @@ function youtube(title){
 function googleImage(title){
   console.log(title)
   $.ajax({
-    url: 'http://localhost:4000/recipes/images',
+    url: 'http://localhost:3000/recipes/images',
     method: 'post',
     data: {
         recipe: title
@@ -163,7 +163,7 @@ function onSignIn(googleUser) {
 
   $.ajax({
     method:'post',
-    url: 'http://localhost:4000/users/googleSignin',
+    url: 'http://localhost:3000/users/googleSignin',
     data : {
       id_token
     }
